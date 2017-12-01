@@ -1,0 +1,108 @@
+<ion-header>
+    <ion-navbar color="primary" [ngClass]="{'ion-navbar-header-fix': mode !== 'edit'}">
+        <ion-buttons *ngIf="mode == 'edit'">
+            <button ion-button (click)="editCancel()">
+                Cancel
+            </button>
+        </ion-buttons>
+        <!-- <ion-title>{{ companyName }} {{total | currency:'USD':true:'1.0-0'}}</ion-title> -->
+        <ion-title>{{ companyName }}</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="addEditContinue()" [disabled]="saveDisabled">
+                Save
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content no-padding>
+    <!--<pre>{{ debug | json }}</pre>-->
+    <form [formGroup]="addAskForm">
+        <!-- <mbsc-form [options]="formSettings">
+            <div class="mbsc-form-group">
+                <div class="mbsc-form-group">
+                    <label>Closing Date
+                        <input id="askCloseDate" mbsc-calendar [mbsc-options]="closeDateSettings" data-icon="calendar" formControlName="closeDate" />
+                    </label>
+                    <mbsc-input type="text" icon="pencil2" icon-align="left" placeholder="Optional" formControlName="title">Title</mbsc-input>
+                    <mbsc-textarea icon="notebook" icon-align="left" placeholder="Optional" formControlName="notes">Notes</mbsc-textarea>
+                </div>
+            </div>
+        </mbsc-form> -->
+        <div formArrayName="asks">
+            <mbsc-form [options]="formSettings">
+                <div class="mbsc-form-group" [formGroupName]="i" *ngFor="let ask of addAskForm.controls.asks.controls; let i = index">
+                    <ion-item-divider ion-item light no-lines>
+                        Ask Details For Station: <strong>{{ask.controls['station'].value?.stationName}}</strong>
+                        <ion-icon item-right name="trash" (click)="removeStation(i)"></ion-icon>
+                    </ion-item-divider>
+                    <!-- <div class="mbsc-form-group-title">
+                        <span class="stationName">{{ask.controls['station'].value?.stationName}}</span>
+                        <ion-icon item-right name="heart"></ion-icon>
+                        <mbsc-button flat icon="material-remove-circle" class="deleteStationButton" (click)="removeStation(i)"></mbsc-button>
+                        <span class="mbsc-ic mbsc-ic-material-remove-circle"></span>
+                    </div> -->
+                    <label>Amount<span id="askAmountLabel">$</span>
+                       <!--<input id="askAmount" type="text" (click)="showAmounts(ask)" data-icon="fa-money" icon-align="left" formControlName="amount" />-->
+                       <input id="askAmount" (change)="adjustPeriods(ask, i)" formControlName="amount" data-icon="fa-money" mbsc-numpad [mbsc-options]="numpadSettings" icon-align="left" placeholder="Required" />
+                    </label>
+                    <ion-item id="showAmounts" (click)="showAmounts(ask)">
+                        <span class="mbsc-ic mbsc-ic-material-details" id="amountDetails" item-right>DETAILS</span>
+                    </ion-item>
+                    <label>Period
+                        <input (change)="adjustPeriods(ask, i)" [(mbsc-range)]="ask.controls['period'].value.period" [mbsc-options]="rangeSettings" data-icon="calendar" class="periodRange" />
+                    </label>
+                    <!-- <label>Probability
+                        <input id="probability" disabled=true data-icon="fa-percent" icon-align="left" mbsc-input formControlName="probability" />
+                        <span id="probabilityPercent">%</span>
+                        <mbsc-button id="minus" icon="minus" (click)="decreaseProbability(ask)"></mbsc-button>
+                        <mbsc-button id="plus" icon="plus" (click)="increaseProbability(ask)"></mbsc-button>
+                    </label> -->
+
+                <!-- <label>Probability
+                    <input id="probability" disabled=true data-icon="fa-percent" icon-align="left" [ngClass]="{'probInputWonText': ask.controls['probability'].value === 'Won', 'probInputLostText': ask.controls['probability'].value === 'Lost'}" mbsc-input formControlName="probability" />
+                    <span id="probabilityPercent" [hidden]="ask.controls['probability'].value === 'Won' || ask.controls['probability'].value === 'Lost'">%</span>
+                    <mbsc-button id="minus" [ngClass]="{'probButtonDisabled': ask.controls['probability'].value === 'Lost'}" icon="minus" [disabled]="ask.controls['probability'].value === 'Lost'" (click)="decreaseProbability(ask)"></mbsc-button>
+                    <mbsc-button id="plus" [ngClass]="{'probButtonDisabled': ask.controls['probability'].value === 'Won'}" icon="plus"  [disabled]="ask.controls['probability'].value === 'Won'"(click)="increaseProbability(ask)"></mbsc-button>
+                </label> -->
+
+                <label class="mbsc-stepper-cont mbsc-control-w mbsc-stepper-val-left">
+                    <span class="mbsc-ic mbsc-ic-fa-percent sliderMonths"></span> Probability
+                    <span class="mbsc-segmented mbsc-stepper">
+                        <div class="probText" [ngClass]="{'probInputWonText': ask.controls['probability'].value === 'Won', 'probInputLostText': ask.controls['probability'].value === 'Lost'}">{{ask.controls['probability'].value}}<span id="probabilityPercenttwo" [hidden]="ask.controls['probability'].value === 'Won' || ask.controls['probability'].value === 'Lost'">%</span></div>
+                            <span class="mbsc-segmented-item">
+                                <span class="mbsc-segmented-content"></span>
+                            </span>
+                            <span class="mbsc-segmented-item mbsc-stepper-control mbsc-stepper-minus" [ngClass]="{'mbsc-step-disabled': ask.controls['probability'].value === 'Lost'}" tabindex="0" (click)="decreaseProbability(ask)">
+                                <span class="mbsc-segmented-content">
+                                    <span class="mbsc-ic mbsc-ic-minus"></span>
+                                </span>
+                            </span>
+                            <span class="mbsc-segmented-item mbsc-stepper-control mbsc-stepper-plus" [ngClass]="{'mbsc-step-disabled': ask.controls['probability'].value === 'Won'}" tabindex="0" (click)="increaseProbability(ask)">
+                                <span class="mbsc-segmented-content">
+                                    <span class="mbsc-ic mbsc-ic-plus"></span>
+                                </span>
+                            </span>
+                    </span>
+                </label>
+
+                    <label id="corporate">Corporate
+                        <select formControlName="corporateCampaign" data-icon="cabinet" mbsc-select [mbsc-options]="campaignSettings">
+                            <option value=""></option>
+                            <option *ngFor="let campaign of (askService.corporateCampaigns$ | async) |  orderBy : 'campaignName'" [value]="campaign.campaignId">{{campaign.campaignName}}</option>
+                        </select>
+                    </label>
+                    <label id="station">Station
+                        <select formControlName="stationCampaign" data-icon="cabinet" mbsc-select [mbsc-options]="campaignSettings">
+                            <option value=""></option>
+                            <option  *ngFor="let campaign of (askService.stationCampaigns$ | async) | filterPipe:{ stationName: ask.controls['station'].value?.stationName } : false  | orderBy : ['stationName', 'campaignName']">{{campaign.campaignName}}</option>                          
+                        </select>
+                    </label>
+                </div>
+            </mbsc-form>
+        </div>
+    </form>
+
+    <pre>{{tempAskDetail | json}}</pre>
+
+</ion-content>

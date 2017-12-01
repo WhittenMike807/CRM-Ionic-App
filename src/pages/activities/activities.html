@@ -1,0 +1,118 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="apps"></ion-icon>
+        </button>
+        <ion-title>Activities</ion-title>
+        <ion-buttons end>
+            <button ion-button large mbsc-eventcalendar [mbsc-options]="eventSettings" [mbsc-data]="events">
+                <ion-icon name="calendar"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+    <!-- <ion-toolbar primary *ngIf="showSearchBar">
+        <ion-searchbar *ngIf="showSearchBar" [(ngModel)]="searchText" (ionInput)="searchThis($event)" (ionCancel)="cancelSearch($event)" (ionClear)="clearSearch($event)" [showCancelButton]="true"></ion-searchbar>
+    </ion-toolbar> -->
+
+    <ion-toolbar color="white">
+        <ion-buttons start left>
+            <button ion-button color="primary" clear item-left mode="ios" (click)="gotoPrevWeek()">
+                <ion-icon name="arrow-dropleft"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title text-center>{{headerText}}</ion-title>
+        <ion-buttons end>
+            <button ion-button color="primary" clear item-right mode="ios" (click)="gotoNextWeek()">
+                <ion-icon name="arrow-dropright"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+
+    <ion-toolbar color="white">
+        <ion-grid no-padding fixed>
+            <ion-row align-items-center>
+                <ion-col *ngFor="let day of weekDates; let i=index" text-center (click)="selectActivityDate(day.date)">
+                    <div class="dayNameText">{{day.dateAbbv}}</div>
+                </ion-col>
+            </ion-row>
+
+            <ion-row align-items-center>
+                <ion-col *ngFor="let day of weekDates; let i=index" text-center (click)="selectActivityDate(day.date)">
+                    <div class="dayNumberSection" [ngClass]="{'dateSelected' : day.selected, 'isWeekend' : day.isWeekend}">
+                        <div>{{day.dateNumber}}</div>
+                    </div>
+                </ion-col>
+            </ion-row>
+
+            <ion-row align-items-center class="hasActivitiesRow">
+                <ion-col *ngFor="let day of weekDates; let i=index" text-center (click)="selectActivityDate(day.date)">
+                    <div class="hasActivities" *ngIf="day.hasActivites">
+                        <ion-icon name="radio-button-on"></ion-icon>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-grid class="noActivities" *ngIf="!userActivitiesByDay.length">
+        <ion-row center>
+            <ion-col align-self-stretch text-center>
+                <div *ngIf="!returningData">
+                    <ion-icon name="happy-outline" class="thumbsUp"></ion-icon>
+                </div>
+                <div *ngIf="!returningData">
+                    You have no activities for this day
+                </div>
+                <ion-spinner name="dots" *ngIf="returningData"></ion-spinner>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-list *ngIf="userActivitiesByDay.length" class="chat-sliding-demo">
+        <ion-list-header>
+            Activities
+        </ion-list-header>
+        <ion-item-sliding *ngFor="let act of userActivitiesByDay" #slidingItem>
+            <ion-item no-padding class="activityItem" [ngClass]="isActivityClosed(act)">
+                <button ion-button item-start icon-only large clear *ngIf="act.activityState === 'Open'" (click)="closeActivity(act)">
+                    <ion-icon name="radio-button-off" style="color:#c8c7cc;"></ion-icon>
+                </button>
+                <button ion-button item-start icon-only large clear *ngIf="act.activityState === 'Closed'" (click)="openActivity(act)">
+                    <ion-icon name="checkmark-circle" color="secondary"></ion-icon>
+                </button>
+                <h2>{{act.subject}}</h2>
+                <p *ngIf="act.companyName" (click)="itemTapped($event, act)">{{act.companyName}}</p>
+                <p *ngIf="act.suspectCompanyName" (click)="itemTapped($event, act)">{{act.suspectCompanyName}}</p>
+                <ion-note item-end *ngIf="isMidnight(act.startDate)">
+                    {{act.startDate | moment:'h:mma'}}
+                </ion-note>
+            </ion-item>
+
+            <ion-item-options side="right" *ngIf="act.activityState === 'Open'">
+                <button ion-button color="danger" (click)="deleteActivity(slidingItem, act)">
+                    <ion-icon name="trash" class="expand-hide"></ion-icon>
+                    <div class="expand-hide itemOptionsText">Delete</div>
+                    <ion-spinner id="delete-spinner"></ion-spinner>
+                </button>
+                <button ion-button color="secondary" (click)="closeActivitySliding(slidingItem, act)">
+                    <ion-icon name="checkmark-circle-outline"></ion-icon>
+                    <div class="itemOptionsText">Close</div>
+                </button>
+                <button ion-button color="dark" (click)="editActivity(slidingItem, act)">
+                    <ion-icon name="create"></ion-icon>
+                    <div class="itemOptionsText">Edit</div>
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+
+    <ion-fab bottom right>
+        <button ion-fab mini (click)="addActivity()"><ion-icon name="md-add"></ion-icon></button>
+    </ion-fab> 
+</ion-content> 

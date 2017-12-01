@@ -1,0 +1,20 @@
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <mbsc-form [options]="formSettings">
+        <div class="mbsc-form-group">
+            <div class="mbsc-form-group-title"><ion-icon name="mail"></ion-icon> Revenue</div>
+            <ion-grid *ngIf="leadsService.companyRevenueSubject$ | async as spendingData;">
+                <ion-row>
+                    <ion-col style="text-transform: uppercase; font-size: 12px;" text-center><div>THIS YEAR</div></ion-col>
+                    <ion-col style="text-transform: uppercase; font-size: 12px;" text-center>LAST YEAR</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col style="font-size: 26px; font-weight: bold;" text-center>{{ spendingData.spendingCY | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col style="font-size: 26px; font-weight: bold" text-center>{{ spendingData.spendingLY | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+    </mbsc-form>
+</ion-content>

@@ -1,0 +1,97 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons>
+            <button ion-button (click)="cancelEdit()">
+                Cancel
+            </button>
+        </ion-buttons>
+        <ion-title>Contact Details</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="saveDocument()" [disabled]="!contactForm.valid">
+                Save
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="contactForm">
+        <mbsc-form [options]="formSettings">
+
+            <div class="mbsc-form-group">
+                <div class="mbsc-form-group-title">First and Last Name</div>
+
+                <ion-grid no-padding no-margin>
+                    <ion-row>
+                        <ion-col>
+                            <mbsc-input type="text" icon="ion-person" icon-align="left" formControlName="firstName" placeholder="First Name" [error]="contactForm.controls.firstName.invalid" errorMessage="Required">
+                                First Name
+                            </mbsc-input>
+                        </ion-col>
+                           <ion-col col-2 *ngIf="isScanning"><mbsc-button block flat icon="arrow-down5" (click)="showOCR('firstName')"></mbsc-button></ion-col>   
+                    </ion-row>
+                </ion-grid>
+
+                  <ion-grid no-padding>
+                    <ion-row>
+                        <ion-col>
+                            <mbsc-input type="text" icon="ion-person" icon-align="left" formControlName="lastName" placeholder="Last Name" [error]="contactForm.controls.lastName.invalid" errorMessage="Required">
+                                Last Name
+                            </mbsc-input>
+                        </ion-col>
+                        <ion-col col-2 *ngIf="isScanning"><mbsc-button block flat icon="arrow-down5" (click)="showOCR('lastName')"></mbsc-button></ion-col>   
+                    </ion-row>
+                </ion-grid>  
+            </div>
+
+            <div class="mbsc-form-group">
+                <div class="mbsc-form-group-title">Email and Phone Numbers</div>
+
+                <ion-grid no-padding>
+                    <ion-row>
+                        <ion-col>
+                            <mbsc-input type="text" icon="ion-email" icon-align="left" formControlName="emailAddress" placeholder="Email">
+                                Email
+                            </mbsc-input>
+                        </ion-col>
+                          <ion-col col-2 *ngIf="isScanning"><mbsc-button block flat icon="arrow-down5" (click)="showOCR('emailAddress')"></mbsc-button></ion-col>  
+                    </ion-row>
+                </ion-grid>
+
+                <ion-grid no-padding>
+                    <ion-row>
+                        <ion-col>
+                            <mbsc-input type="text" icon="phone" icon-align="left" formControlName="phone" placeholder="Office Number">
+                                Office
+                            </mbsc-input>
+                        </ion-col>
+                          <ion-col col-2 *ngIf="isScanning"><mbsc-button block flat icon="arrow-down5" (click)="showOCR('phone')"></mbsc-button></ion-col>  
+                    </ion-row>
+                </ion-grid>
+
+                <ion-grid no-padding>
+                    <ion-row>
+                        <ion-col>
+                            <mbsc-input type="text" icon="phone" icon-align="left" formControlName="mobilePhone" placeholder="Mobile Number">
+                                Mobile
+                            </mbsc-input>
+                        </ion-col>
+                          <ion-col col-2 *ngIf="isScanning"><mbsc-button block flat icon="arrow-down5" (click)="showOCR('mobilePhone')"></mbsc-button></ion-col>  
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </mbsc-form>
+    </form>
+    
+    <!-- OCR Scanning Progress Bar -->
+    <ion-item no-lines *ngIf="isScanning" text-center>
+        {{ progress }}
+        <!--<progress-bar [progress]="loadProgress"></progress-bar>-->
+    </ion-item>
+
+    <!-- Action Menu -->
+    <ion-fab bottom right *ngIf="mode == 'new'">
+        <button ion-fab mini (click)="openMenu()"><ion-icon name="ios-camera"></ion-icon></button>
+   </ion-fab>
+
+</ion-content>

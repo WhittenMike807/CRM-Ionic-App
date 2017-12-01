@@ -1,0 +1,30 @@
+page-asks {
+    ion-content {
+        background: #EFEFF4 !important;
+    }
+    .pipelineAsk {
+        width: 50%;
+        float: left;
+    }
+    .pipeline-no-margin {
+        padding: 0px;
+        margin: 0px;
+    }
+    .askLeftDetailText {
+        font-size: 1.2rem;
+    }
+    .askRightDetailText {
+        font-size: 1.2rem;
+        text-align: right;
+    }
+    .askWeightedAmountText {
+        font-size: 2.0rem;
+        font-weight: bold;
+        color: #6db163;
+        text-align: right;
+    }
+    .closeDateText {
+        font-weight: bold;
+        color: #d9534f;
+    }
+}

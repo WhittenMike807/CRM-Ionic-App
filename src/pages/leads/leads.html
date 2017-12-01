@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-navbar color="leadsTopHeader">
+        <button ion-button menuToggle>
+            <ion-icon name="apps"></ion-icon>
+        </button>
+        <ion-title>Leads</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="toggleSearchBar()">
+                <ion-icon name="search"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+    <ion-toolbar primary *ngIf="showSearchBar">
+        <ion-searchbar #searchbar *ngIf="showSearchBar" [(ngModel)]="searchText" (ionInput)="searchThis($event)" (ionCancel)="cancelSearch($event)" (ionClear)="clearSearch($event)" [showCancelButton]="true">
+        </ion-searchbar>
+    </ion-toolbar>
+    <ion-toolbar primary *ngIf="showSearchBar" id="searchToolbar">
+        <mbsc-form>
+            <label id="searchLabel">
+                Conditions
+                <select [(ngModel)]="searchCondition" (change)="conditionChanged($event)" data-icon="line-params" mbsc-select [mbsc-options]="searchSettings">
+                    <option value="0">None</option>
+                    <option value="1">Priority</option>
+                    <option value="2">Overdue</option>
+                    <option value="3">Has Next</option>
+                    <option value="4">No Next</option>
+                    <option value="5">Hot</option>
+                    <option value="6">Warm</option>
+                    <option value="7">Cold</option>
+                </select>
+            </label>
+        </mbsc-form>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-item-group *ngFor="let group of groupedList">
+        <ion-item-divider class="groupDivider" [id]="group.letter" sticky>{{group.letter}}</ion-item-divider>
+        <button ion-item *ngFor="let lead of group.leads" (click)="itemTapped($event, lead)">
+            {{lead.companyName}}
+        </button>
+    </ion-item-group>
+
+    <!-- Action Menu -->
+    <ion-fab bottom right>
+        <button ion-fab mini (click)="createLead()"><ion-icon name="md-add"></ion-icon></button>
+    </ion-fab>
+</ion-content>

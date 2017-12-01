@@ -1,0 +1,20 @@
+page-see-all {
+    .companyType {
+        font-size: 1.1rem;
+    }
+    .companyType.lead {
+        color: map-get($colors, lead);
+    }
+    .companyType.account {
+        color: map-get($colors, account);
+    }
+    .companyType.agency {
+        color: map-get($colors, agency);
+    }
+    .companyType.suspect {
+        color: map-get($colors, suspect);
+    }
+    #searchLabel {
+        color: #3498db !important;
+    }
+}

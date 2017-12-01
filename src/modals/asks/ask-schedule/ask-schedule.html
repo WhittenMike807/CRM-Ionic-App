@@ -1,0 +1,50 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons start>
+            <button ion-button (click)="back()">Close</button>
+        </ion-buttons>
+        <ion-title>{{ask.station.stationName}} {{total | currency:'USD':true:'1.2-2'}}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content no-padding>
+    <!--<pre>{{ debug | json }}</pre>-->
+    <form [formGroup]="addAskForm">
+        <div formArrayName="asks">
+            <mbsc-form [options]="formSettings">
+                <div class="mbsc-form-group" [formGroupName]="i" *ngFor="let ask of addAskForm.controls.asks.controls; let i = index">
+                    <label class="scheduleRange">{{ask.controls['month'].value}} </label>
+                    <span class="mbsc-desc scheduleRangeDesc">{{ ask.controls['detailsStartDate'].value }} - {{ ask.controls['detailsEndDate'].value }}</span>
+                    <span id="askDollar">$</span>
+                    <input class="askScheduleAmount" formControlName="detailsAmount" data-icon="fa-money" mbsc-numpad [mbsc-options]="numpadSettings" placeholder="Required" />
+                </div>
+            </mbsc-form>
+        </div>
+    </form>
+    <!--
+        <form [formGroup]="addAskForm">
+        <div formArrayName="asks">
+            <ion-card [formGroupName]="i" *ngFor="let ask of addAskForm.controls.asks.controls; let i = index">
+                <ion-item-group>
+                    <ion-item-divider color="dark">
+                        <ion-row>
+                            <ion-col>
+                                {{ask.controls['month'].value}}
+                            </ion-col>
+                            <ion-col text-right>
+                                AMOUNT
+                            </ion-col>
+                        </ion-row>
+                    </ion-item-divider>
+                    <ion-item>
+                        <ion-label>{{ ask.controls['detailsStartDate'].value }} - {{ ask.controls['detailsEndDate'].value }}</ion-label>
+                        <ion-input text-right item-content formControlName="detailsAmount" type="number" placeholder="0"></ion-input>
+                    </ion-item>
+                </ion-item-group>
+            </ion-card>
+        </div>
+    </form>
+    -->
+    {{userData | json}}
+</ion-content>

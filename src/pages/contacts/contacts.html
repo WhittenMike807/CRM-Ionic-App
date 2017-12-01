@@ -1,0 +1,68 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="apps"></ion-icon>
+        </button>
+        <ion-title>Contacts</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-segment [(ngModel)]="contactType" padding>
+        <ion-segment-button value="userContacts" (click)="userContacts($event)">MY CONTACTS</ion-segment-button>
+        <ion-segment-button value="marketContacts" (click)="marketContacts($event)">MARKET CONTACTS</ion-segment-button>
+    </ion-segment>
+
+
+    <!--<ion-searchbar *ngIf="showSearchBar"  -->
+    <ion-searchbar [(ngModel)]="searchText" (ionInput)="searchThis($event)" (ionCancel)="cancelSearch($event)" (ionClear)="clearSearch($event)" [showCancelButton]="true">
+    </ion-searchbar>
+
+    <ion-list *ngIf="!groupedList.length && contactType === 'marketContacts'">
+        <ion-item text-center>
+            <h2>You can search contacts...</h2>
+            <p>By first name, last name, or email</p>
+        </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="groupedList.length">
+
+        <ion-item-group *ngFor="let group of groupedList">
+            <ion-item-divider class="groupDivider" [id]="group.letter" sticky>{{group.letter}}</ion-item-divider>
+            <ion-item-sliding *ngFor="let contact of group.contacts" #slidingItem>
+                <ion-item (click)="itemTapped($event, contact)">
+                    {{ contact.firstName }} {{ contact.lastName}}
+                </ion-item>
+                <ion-item-options side="right">
+                    <a href="tel:{{contact.phone}}" ion-button color="primary" style="text-decoration: none;" *ngIf="contact.phone">
+                        <ion-icon name="call"></ion-icon>
+                        Office
+                    </a>
+
+                    <a href="tel:{{contact.mobilePhone}}" ion-button color="secondary" style="text-decoration: none;" *ngIf="contact.mobilePhone">
+                        <ion-icon name="phone-portrait"></ion-icon>
+                        Mobile
+                    </a>
+
+                    <a href="mailto:{{contact.emailAddress}}" ion-button color="agency" style="text-decoration: none;" *ngIf="contact.emailAddress">
+                        <ion-icon name="mail"></ion-icon>
+                        Email
+                    </a>
+
+                    <button ion-button color="danger" (click)="editContact(slidingItem, contact)" *ngIf="contactType === 'userContacts'">
+                        <ion-icon name="md-create"></ion-icon>
+                        Edit
+                    </button>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-item-group>
+    </ion-list>
+
+    <!-- Action Menu -->
+    <ion-fab bottom right>
+        <button ion-fab mini (click)="createContact()"><ion-icon name="md-add"></ion-icon></button>
+    </ion-fab>
+</ion-content>

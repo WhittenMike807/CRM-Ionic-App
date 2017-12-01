@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="apps"></ion-icon>
+        </button>
+        <ion-title>Search Companies</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-searchbar *ngIf="showSearchBar"
+        [(ngModel)]="searchText"
+        (ionInput)="searchThis($event)"
+        (ionCancel)="cancelSearch($event)"
+        (ionClear) = "clearSearch($event)"
+        [showCancelButton]="false">
+    </ion-searchbar>
+
+    <ion-list *ngIf="!companies.length">
+        <ion-item text-center>
+            <h2>You can search companies...</h2> 
+            <p>By company name</p>
+        </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="companies'length'">
+        <ion-item *ngFor="let company of companies" (click)="companySelected(company)">
+            <h2>{{ company.companyName}}</h2> 
+            <p>Company Type: {{ company.companyType }}</p>
+            <ion-icon name="arrow-forward" item-right *ngIf="company.companyId > 0"></ion-icon>
+            <p>Owner: {{ company.currentOwner }}</p>
+            <p>Created On: {{ company.dateCreated | date: "MMM dd, yyyy" }}</p>
+        </ion-item>
+    </ion-list>
+</ion-content>

@@ -1,0 +1,102 @@
+page-activities {
+    .dayNameText {
+        font-size: 9px;
+        color: #333;
+    }
+    .dayNumberSection {
+        margin: 0px 10px;
+        padding: 5px 0px;
+        font-size: 14px;
+    }
+    .dateSelected {
+        background: #488aff;
+        border: 1px solid #488aff;
+        border-radius: 3px !important;
+        color: #ffffff;
+    }
+    ion-content {
+        background: #efeff4 !important;
+    }
+    .hasActivities {
+        color: #488aff;
+        font-size: 5px;
+    }
+    .dateSelected {
+        color: #ffffff !important;
+    }
+    .noActivities {
+        height: 100%;
+        color: #9e9e9e;
+        font-size: 12px;
+        justify-content: center;
+    }
+    .thumbsUp {
+        font-size: 60px;
+        color: #dedede;
+    }
+    .noPaddingLeft {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+    .timeText {
+        font-size: 12px;
+    }
+    .closedActivity ion-note,
+    .closedActivity h2,
+    .closedActivity p {
+        color: #888;
+        text-decoration: line-through;
+    }
+    .list-ios>.item-block:last-child,
+    .list-ios>.item-wrapper:last-child .item-block {
+        //border-bottom: none;
+    }
+    .item-inner {
+        // padding-right: 0px !important;
+    }
+    .isWeekend {
+        color: #da9191;
+    }
+    .hasActivitiesRow {
+        margin-top: 5px;
+        min-height: 8px;
+    }
+    ion-label.label.label-ios {
+        margin: 5px 8px 5px 0;
+    }
+    button.button.button-clear.button-large {
+        font-size: 1.5rem !important;
+        margin-right: 0px !important;
+    }
+    #delete-spinner,
+    .deleting .expand-hide {
+        display: none;
+    }
+    #delete-spinner.spinner-ios line,
+    #delete-spinner.spinner-crescent circle {
+        stroke: #fff;
+    }
+    #delete-spinner.spinner-circles circle {
+        fill: #fff;
+    }
+    .deleting #delete-spinner {
+        display: block;
+    }
+    .itemOptionsText {
+        font-size: 0.8em !important;
+    }
+    ion-item-options .button {
+        min-width: 70px;
+    }
+    .chat-sliding-demo ion-note {
+        font-size: 13px;
+        margin-top: -8px;
+    }
+    .chat-sliding-demo img {
+        pointer-events: none;
+    }
+    .item-ios h2 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

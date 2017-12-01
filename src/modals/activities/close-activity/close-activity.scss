@@ -1,0 +1,27 @@
+page-close-activity {
+    
+
+    span.invalid {
+        color: #ea6153;
+        border: none;
+        font-weight: bold;
+    }
+
+    .characterCounter  p {
+        font-size: 1.2rem !important;
+    }
+
+    .characterCounter .label-ios {
+        margin-top: 0px;
+    }
+
+    textarea.text-input{
+        background: #f0f0f0;
+        resize: vertical;
+        border: 1px solid #cdcdcd;
+        min-height: 150px;
+        margin-bottom: 0px !important;
+    }
+
+
+}

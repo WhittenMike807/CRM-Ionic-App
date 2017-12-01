@@ -1,0 +1,80 @@
+<ion-header>
+    <ion-navbar>
+        <ion-buttons>
+            <button ion-button (click)="editCancel()">
+                Cancel
+            </button>
+        </ion-buttons>
+        <ion-title>EDIT LEAD</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="editSave()">
+                Save
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-item>
+        <ion-label color="primary" stacked>Company Name</ion-label>
+        <ion-input [(ngModel)]="accountDetails.companyName" type="text" placeholder="Company Name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>Category Type</ion-label>
+        <ion-select [(ngModel)]="accountDetails.companyTypeId" class="typeSelect" placeholder="Category Type">
+            <ion-option *ngFor="let companyType of companyTypeList" [value]="companyType.id">{{companyType.description}}</ion-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>Month Type</ion-label>
+        <ion-select [(ngModel)]="accountDetails.monthType" class="typeSelect" placeholder="Month Type">
+            <ion-option *ngFor="let type of monthTypeList" [value]="type.value">{{type.description}}</ion-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>Billing Cycle</ion-label>
+        <ion-select [(ngModel)]="accountDetails.billingCycle" class="typeSelect" placeholder="Billing Cycle">
+            <ion-option *ngFor="let type of billingCycleList" [value]="type.value">{{type.description}}</ion-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>Revenue Type</ion-label>
+        <ion-select [(ngModel)]="accountDetails.revenueTypeId" class="typeSelect" placeholder="Revenue Type">
+            <ion-option *ngFor="let type of revenueTypeIdList" [value]="type.id">{{type.name}}</ion-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>Address Line 1</ion-label>
+        <ion-input [(ngModel)]="accountDetails.address1" type="text" placeholder="Address Line 1"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>Address Line 2</ion-label>
+        <ion-input [(ngModel)]="accountDetails.address2" type="text" placeholder="Address Line 2"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>City</ion-label>
+        <ion-input [(ngModel)]="accountDetails.city" type="text" placeholder="City"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>State</ion-label>
+        <ion-input [(ngModel)]="accountDetails.state" type="text" placeholder="State"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>Zip Code</ion-label>
+        <ion-input [(ngModel)]="accountDetails.zipCode" type="text" placeholder="Zip Code"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>Phone</ion-label>
+        <ion-input [(ngModel)]="accountDetails.phone" type="text" placeholder="Phone"></ion-input>
+    </ion-item>
+</ion-content>

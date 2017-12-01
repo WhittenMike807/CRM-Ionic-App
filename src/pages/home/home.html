@@ -1,0 +1,41 @@
+<ion-menu type="slide" [content]="content">
+    <ion-header>
+        <ion-toolbar color="ampBlue">
+            <ion-title>Side Menu Header</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list>
+            <button menuClose ion-item (click)="openPage()">ACTIVITES</button>
+            <button menuClose ion-item (click)="openPage()">PIPELINE</button>
+            <button menuClose ion-item (click)="openPage()">SEE ALL</button> 
+            <button menuClose ion-item (click)="openPage()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEADS</button>
+            <button menuClose ion-item (click)="openPage()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ACCOUNTS</button>
+            <button menuClose ion-item (click)="openPage()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AGENCIES</button>
+            <button menuClose ion-item (click)="openPage()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONTACTS</button>
+            <button menuClose ion-item (click)="openPage()">SEARCH MARKET COMPANIES</button>
+        </ion-list>
+        <!--<div class="row"><div class="col"><div class="text-center">v.{{ampAppVerison}}</div></div></div>-->
+    </ion-content>
+    <ion-footer>    
+        <ion-toolbar>
+            <div>
+                <button color="danger" class="text-center" menuClose ion-item (click)="openPage()">SIGN OUT</button>
+            </div>
+        </ion-toolbar>
+    </ion-footer>
+</ion-menu>
+
+<ion-header>
+    <ion-navbar color="ampBlue">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>AMP LOGO HERE</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+

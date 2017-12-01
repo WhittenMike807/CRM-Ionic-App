@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Switch Market</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="dismiss()">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-searchbar (ionInput)="getMarkets($event)" [(ngModel)]="searchQuery" placeholder="Search Markets..." animated="true" debounce="500"></ion-searchbar>
+
+    <ion-list>
+        <button ion-item *ngFor="let market of filteredMarkets" (click)="selectMarket($event, market)">
+          <ion-icon *ngIf="!market.isCurrentlySelected" name="radio-button-off" style="color:#c8c7cc;"></ion-icon>
+          <ion-icon *ngIf="market.isCurrentlySelected"name="checkmark-circle" color="primary"></ion-icon>
+            {{market.name}}
+        </button>
+    </ion-list>
+
+</ion-content>

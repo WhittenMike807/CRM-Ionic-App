@@ -1,0 +1,53 @@
+<ion-content class="login-content" padding no-bounce nav fullscreen>
+  <ion-row class="logo-row">
+    <ion-col></ion-col>
+    <ion-col col-7>
+      <img src="assets/images/amp-logo-blue-lg.png"/>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+  <div class="login-box">
+    <form (ngSubmit)="login()" #registerForm="ngForm">
+      <ion-row>
+        <ion-col>
+          <ion-list inset>
+            
+            <ion-item class="rounded">
+              <ion-icon name="ios-contact-outline" item-left></ion-icon>
+              <ion-input #input type="text" placeholder="Username" name="username" [(ngModel)]="registerCredentials.username" required></ion-input>
+              <!--<ion-icon name="ios-close-circle" item-right (click)="clearRememberMe()"></ion-icon>-->
+              <button type="button" ion-button icon-only item-right clear color="light" (click)="clearRememberMe()" *ngIf="disablePasswordInput">
+                 <ion-icon name="ios-close-circle"></ion-icon>
+              </button>
+            </ion-item>
+            
+            <ion-item class="rounded">
+              <ion-icon name="ios-lock-outline" item-left></ion-icon>
+              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required [disabled]="disablePasswordInput"></ion-input>
+            </ion-item>
+
+            <ion-item class="rememberMe">
+              <ion-checkbox color="secondary" name="RememberMe" [(ngModel)]="registerCredentials.rememberMe"></ion-checkbox>
+              <ion-label class="alignLabelRight">Remember Me</ion-label>
+            </ion-item>
+            
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col class="signup-col">
+          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Login</button>
+          <!--<button ion-button class="register-btn" block clear (click)="createAccount()">Create New Account</button>-->
+        </ion-col>
+      </ion-row>
+      
+    </form>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="loginFooterBlue">
+    <ion-title>{{envVariables.environmentName}}</ion-title>
+  </ion-toolbar>
+</ion-footer>

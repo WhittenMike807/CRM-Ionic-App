@@ -1,0 +1,28 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>{{accountDetails?.companyName}}</ion-title>
+        <!--<ion-buttons end>
+            <button ion-button (click)="openMenu()">
+                <ion-icon name="md-add"></ion-icon>
+            </button>
+        </ion-buttons>
+    -->
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <!-- Action Menu -->
+    <ion-fab top right>
+        <button ion-fab mini (click)="openMenu()"><ion-icon name="md-add"></ion-icon></button>
+    </ion-fab>
+    <ion-tabs #myTabs>
+        <ion-tab tabIcon="home" [root]="companyProfile"  [rootParams]="accountDetails"></ion-tab>
+        <ion-tab tabIcon="contacts" [root]="companyContacts"  [rootParams]="accountDetails"></ion-tab>
+        <ion-tab tabIcon="cash" [root]="revenue" [rootParams]="accountDetails" *ngIf="accountDetails?.type == 'Account'"></ion-tab>
+        <ion-tab tabIcon="mail" [root]="notes" [rootParams]="accountDetails"></ion-tab>
+        <ion-tab tabIcon="calendar" [root]="activityHistory" [rootParams]="accountDetails"></ion-tab>
+        <ion-tab tabIcon="pricetag" [root]="asks" [rootParams]="accountDetails" *ngIf="accountDetails?.type == 'Account' || accountDetails?.type == 'Lead'"></ion-tab>
+        <ion-tab tabIcon="pulse" [root]="plan" [rootParams]="accountDetails" *ngIf="accountDetails?.type == 'Account'"></ion-tab>
+    </ion-tabs>  
+</ion-content>
+

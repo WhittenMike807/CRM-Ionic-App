@@ -1,0 +1,194 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons>
+            <button ion-button (click)="editCancel()">
+                Cancel
+            </button>
+        </ion-buttons>
+        <ion-title>Lead Details</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="editSave()" [disabled]="!addLeadForm.valid">
+                Save
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="addLeadForm">
+        <mbsc-form [options]="formSettings">
+            <div class="mbsc-form-group">
+                <div class="mbsc-form-group-title">Company and Category</div>
+                <mbsc-input type="text" icon="office" icon-align="left" formControlName="companyName" placeholder="Company Name">
+                    Name
+                </mbsc-input>
+                <label>Category
+                    <select formControlName="companyTypeId" data-icon="tv" mbsc-select [mbsc-options]="companySettings">
+                        <option *ngFor="let companyType of (leadsService.companyTypesSubject$ | async)" [value]="companyType.id">{{companyType.description}}</option>
+                    </select>
+                </label>
+            </div>
+            <div class="mbsc-form-group">
+                <div class="mbsc-form-group-title">Month Type, Billing and Revenue</div>
+                <label>Month Type
+                    <select formControlName="monthType" data-icon="material-radio" mbsc-select [mbsc-options]="categorySettings">
+                        <option></option>
+                        <option *ngFor="let type of monthTypeList" [value]="type.value">{{type.description}}</option>
+                    </select>
+                </label>
+                <label>Billing
+                    <select formControlName="billingCycle" data-icon="calendar" mbsc-select [mbsc-options]="billingSettings">
+                        <option></option>
+                        <option *ngFor="let type of billingCycleList" [value]="type.value">{{type.description}}</option>
+                    </select>
+                </label>
+                <label>Revenue
+                    <select formControlName="revenueTypeId" data-icon="fa-money" mbsc-select [mbsc-options]="revenueSettings">
+                        <option></option>
+                        <option *ngFor="let type of (leadsService.revenueTypesSubject$ | async) |  orderBy : 'name'" [value]="type.id">{{type.name}}</option>
+                    </select>
+                </label>
+            </div>
+            <div class="mbsc-form-group">
+                <div class="mbsc-form-group-title">Address and Phone</div>
+                <mbsc-input type="text" icon="address-book" icon-align="left" formControlName="address1" placeholder="Address 1">
+                    Address 1
+                </mbsc-input>
+                <mbsc-input type="text" icon="address-book" icon-align="left" formControlName="address2" placeholder="Address 2">
+                    Address 2
+                </mbsc-input>
+                <mbsc-input type="text" icon="address-book" icon-align="left" formControlName="city" placeholder="City">
+                    City
+                </mbsc-input>
+                <mbsc-input mbsc-select icon="address-book" icon-align="left" formControlName="state" [mbsc-data]="statesArray" [mbsc-options]="localSettings">
+                    State
+                </mbsc-input>
+                <mbsc-input type="text" icon="address-book" icon-align="left" formControlName="zipCode" placeholder="Zip">
+                    Zip
+                </mbsc-input>
+                <mbsc-input type="text" icon="line-phone" icon-align="left" formControlName="phone" placeholder="Phone">
+                    Phone
+                </mbsc-input>
+            </div>
+        </mbsc-form>
+        <!--
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-select formControlName="companyTypeId" class="typeSelect" [class.invalid]="!addLeadForm.controls.companyTypeId.valid" placeholder="Category Type">
+                            <ion-option *ngFor="let companyType of companyTypeList" [value]="companyType.id">{{companyType.description}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-select formControlName="monthType" class="typeSelect" placeholder="Month Type">
+                            <ion-option *ngFor="let type of monthTypeList" [value]="type.value">{{type.description}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-select formControlName="billingCycle" class="typeSelect" placeholder="Billing Cycle">
+                            <ion-option *ngFor="let type of billingCycleList" [value]="type.value">{{type.description}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-select formControlName="revenueTypeId" class="typeSelect" placeholder="Revenue Type">
+                            <ion-option *ngFor="let type of revenueTypeIdList" [value]="type.id">{{type.name}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-input formControlName="address1" type="text" placeholder="Address 1"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-input formControlName="address2" type="text" placeholder="Address 2"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-input formControlName="city" type="text" placeholder="City"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-input formControlName="state" type="text" placeholder="State"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-input formControlName="zipCode" type="text" placeholder="Zip Code"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-input formControlName="phone" type="text" placeholder="Phone Number"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        -->
+    </form>
+</ion-content>

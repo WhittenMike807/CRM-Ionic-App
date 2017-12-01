@@ -1,0 +1,115 @@
+// http://ionicframework.com/docs/v2/theming/
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.no-scroll .scroll-content {
+    overflow: hidden;
+}
+
+.slidingNavArea button ion-label {
+    font-size: 1.5rem;
+}
+
+.slidingNavArea ion-list-header ion-label {
+    font-size: 1.2rem !important;
+}
+
+.slidingNavArea ion-icon {
+    color: #616161;
+}
+
+$icon-detail-push-background-svg : "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 20'><path d='M2,20l-2-2l8-8L0,2l2-2l10,10L2,20z' fill='fg-color'/></svg>" !default;
+$item-md-detail-push-color : $list-md-border-color !default;
+@mixin md-detail-push-icon($fg-color) {
+    $svg: str-replace($icon-detail-push-background-svg, 'fg-color', $fg-color);
+    @include svg-background-image($svg);
+}
+
+button.item:not([detail-none]) .item-inner,
+a.item:not([detail-none]) .item-inner,
+.item[detail-push] .item-inner {
+    @include md-detail-push-icon($item-md-detail-push-color);
+    background-repeat: no-repeat;
+    background-position: right (15px - 2) center;
+    background-size: 14px 14px;
+    padding-right: 32px;
+}
+
+.centerToastText {
+    text-align: center;
+}
+
+.calendarSelectDate {
+    height: 2.75em;
+    line-height: 2.75em;
+    padding: 0 .625em;
+    display: inline-block;
+    color: #3FC380;
+    font-size: 1.33334em;
+}
+
+.calendarCancelDate {
+    height: 2.75em;
+    line-height: 2.75em;
+    padding: 0 .625em;
+    display: inline-block;
+    color: #d9534f;
+    font-size: 1.33334em;
+}
+
+[quill-editor] {
+    display: block;
+}
+
+.ql-container {
+    height: 30% !important;
+}
+
+*[contenteditable] {
+    -webkit-user-select: text !important;
+}
+
+.mbsc-form-group {
+    margin: .25em 0 !important;
+}
+
+.groupDivider {
+    margin-top: -1px;
+    background: #efeff4;
+    color: #6d6d72;
+    font-size: .9em;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.groupDivider .label {
+    margin: 1px 8px 1px 0 !important;
+}

@@ -1,0 +1,66 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons>
+            <button ion-button (click)="cancel()">
+                Cancel
+            </button>
+        </ion-buttons>
+        <ion-title>Edit Ask</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="save()" [disabled]="saveDisabled">
+                Save
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content no-padding>
+    <!--<pre>{{ debug | json }}</pre>-->
+    <ion-list>
+        <form [formGroup]="editAskForm">
+            <ion-item-group>
+                <ion-item>
+                    <ion-label>Company</ion-label>
+                    <ion-note item-content text-nowrap>{{editAskForm.controls['company'].value}}</ion-note>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Station</ion-label>
+                    <ion-note item-content text-nowrap>{{editAskForm.controls['station'].value}}</ion-note>
+                </ion-item>
+                <ion-item>
+                <ion-label>Closing Date</ion-label>
+                    <ion-note item-content text-nowrap displayFormat="MMM DD YYYY">{{formattedCloseDate}}</ion-note>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Amount</ion-label>
+                    <ion-note item-content text-nowrap>${{editAskForm.controls['amount'].value}}</ion-note>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Months</ion-label>
+                    <ion-note item-content text-nowrap>{{editAskForm.controls['months'].value}}</ion-note>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Probablity</ion-label>
+                    <ion-select item-content formControlName="probability" interface="action-sheet">
+                        <ion-option value="0">Lost</ion-option>
+                        <ion-option value="10">10%</ion-option>
+                        <ion-option value="40">40%</ion-option>
+                        <ion-option value="60">60%</ion-option>
+                        <ion-option value="90">90%</ion-option>
+                        <ion-option value="100">Won</ion-option>
+                    </ion-select>
+                </ion-item>
+            </ion-item-group>
+             <ion-item-group>
+                <ion-item-divider color="light">Optional</ion-item-divider>
+                <ion-item no-lines>
+                    <ion-input item-content type="text" placeholder="Title" formControlName="title"></ion-input>
+                </ion-item>
+                <ion-item  no-lines>
+                    <ion-textarea placeholder="Notes" formControlName="notes"></ion-textarea>
+                </ion-item>
+            </ion-item-group>
+        </form>
+    </ion-list>
+</ion-content>

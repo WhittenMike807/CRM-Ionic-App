@@ -1,0 +1,55 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <ion-buttons start>
+            <button ion-button (click)="cancel()" *ngIf="header != 'See All'">Back</button>
+            <button ion-button menuToggle  *ngIf="header == 'See All'">
+                <ion-icon name="apps"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>{{ header }}</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="toggleSearchBar()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+        </ion-buttons>
+    </ion-navbar>
+
+    <ion-toolbar *ngIf="showSearchBar">
+        <ion-searchbar #searchbar animated="true" debounce="500" [(ngModel)]="searchCompaniesString" (ionInput)="searchCompanies($event)"
+            (ionCancel)="cancelSearch($event)" (ionClear)="clearSearch($event)" [showCancelButton]="true" placeholder="Search Companies..."></ion-searchbar>
+    </ion-toolbar>
+
+    <ion-toolbar *ngIf="showSearchBar">
+        <ion-segment [(ngModel)]="meetingType" (ionChange)="filterCompaniesByType(meetingType)">
+            <ion-segment-button value="All">
+                All
+            </ion-segment-button>
+            <ion-segment-button value="Lead">
+                Leads
+            </ion-segment-button>
+            <ion-segment-button value="Account">
+                Accounts
+            </ion-segment-button>
+            <ion-segment-button value="Agency">
+                Agencies
+            </ion-segment-button>
+            <ion-segment-button value="Suspect">
+                Suspects
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+
+    <!--<ion-searchbar animated="true" debounce="500" [(ngModel)]="searchCompaniesString" (ionInput)="searchCompanies($event)" placeholder="Search Companies..."></ion-searchbar>-->
+    <ion-list>
+        <ion-item *ngFor="let company of userCompanies" (click)="selectCompany(company)">
+            {{company.companyName}}
+            <div class="companyType {{company.companyType | lowercase}}">{{company.companyType | uppercase}}</div>
+        </ion-item>
+    </ion-list>
+</ion-content>

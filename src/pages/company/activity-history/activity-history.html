@@ -1,0 +1,48 @@
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <mbsc-form [options]="formSettings">
+            <div class="mbsc-form-group">
+                <div class="mbsc-form-group-title"><ion-icon name="calendar"></ion-icon> Activities</div>
+                    <ion-segment [(ngModel)]="activeSegment" padding>
+                        <ion-segment-button value="pending" (click)="segment('pending')">Pending</ion-segment-button>
+                        <ion-segment-button value="history" (click)="segment('history')">History</ion-segment-button>
+                    </ion-segment>
+                    <ion-list  class="chat-sliding-demo" *ngIf="activeSegment == 'pending'">
+                        <ion-item-sliding *ngFor="let act of (leadsService.leadActivitiesSubject$ | async | filterPipe:{ isClosed: false } : false | orderBy : ['-closeDate'])"  #slidingItem>
+                            <ion-item no-padding class="activityItem" [ngClass]="isActivityClosed(act)">
+                                <h2 class="activitySub">{{act.subject}}</h2>
+                                <p class="activityDesc" *ngIf="act.companyName" (click)="itemTapped($event, act)">{{act.companyName}}</p>
+                                <p class="activityDesc" *ngIf="act.suspectCompanyName" (click)="itemTapped($event, act)">{{act.suspectCompanyName}}</p>
+                                <ion-note class="activityDesc" item-end *ngIf="isMidnight(act.startDate)">
+                                    {{act.startDate | moment:'h:mma'}}
+                                </ion-note>
+                            </ion-item>
+        
+                            <ion-item-options side="right">
+                                <button ion-button color="danger" (click)="deleteActivity(slidingItem, act)">
+                                    <ion-icon name="trash"></ion-icon>
+                                    <div class="itemOptionsText">Delete</div>
+                                </button>
+                                <button ion-button color="secondary" (click)="closeActivitySliding(slidingItem, act)">
+                                    <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                    <div class="itemOptionsText">Close</div>
+                                </button>
+                                <button ion-button color="dark" (click)="editActivity(slidingItem, act)">
+                                    <ion-icon name="create"></ion-icon>
+                                    <div class="itemOptionsText">Edit</div>
+                                </button>
+                            </ion-item-options>
+                        </ion-item-sliding>
+                    </ion-list>
+                    <ion-list *ngIf="activeSegment == 'history'">
+                        <ion-item *ngFor="let act of (leadsService.leadActivitiesSubject$ | async | filterPipe:{ isClosed: true } : false | orderBy : ['-closeDate'])">
+                            <p class="activityDesc">{{act.closeDate | moment: 'EEE MMM DD, YYYY h:mma'}}</p>
+                            <p class="activityDesc">Scheduled: {{act.startDate | moment: 'MMM DD, YYYY h:mma'}}</p>
+                            <p class="activityDesc">{{act.subject}}</p>
+                        </ion-item>
+                    </ion-list>
+            </div>
+    </mbsc-form>
+</ion-content>

@@ -1,0 +1,37 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons>
+            <button ion-button (click)="cancel()">
+                Cancel
+            </button>
+        </ion-buttons>
+        <ion-title>Close Activity</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="save()" [disabled]="!closeActivityForm.valid">
+                Close
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+
+<ion-content no-padding>
+  <form [formGroup]="closeActivityForm">
+        <mbsc-form [options]="formSettings">
+          <div class="mbsc-form-group">
+                <div class="mbsc-form-group-title">Activity Details For: <strong>{{closeActivityForm.controls['companyName'].value}}</strong></div>
+                  <mbsc-input type="text" [disabled]="true" icon="material-subject" icon-align="left" formControlName="subject">
+                      Subject
+                  </mbsc-input>
+                 <label>Close Date
+                        <input id="askCloseDate" mbsc-calendar [mbsc-options]="closeDateSettings" data-icon="calendar" formControlName="myDate" />
+                 </label>
+            </div>
+            <div class="mbsc-form-group">
+                <div class="mbsc-form-group-title">Notes</div>
+                <mbsc-textarea formControlName="comments" icon="copy2" icon-align="left" placeholder="Optional..."></mbsc-textarea>
+            </div>
+        </mbsc-form>
+  </form>
+</ion-content>

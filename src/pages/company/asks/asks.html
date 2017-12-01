@@ -1,0 +1,26 @@
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <mbsc-form [options]="formSettings">
+        <div class="mbsc-form-group">
+            <div class="mbsc-form-group-title"><ion-icon name="pricetag"></ion-icon> Open Asks</div>
+            <ion-list>
+                <ion-item *ngFor="let ask of (leadsService.companyAskHistorySubject$ | async | filterPipe:{ isAskOpen: true } : false )" (click)="editAsk(ask)">
+                    <div class="pipelineAsk">
+                        <ion-grid no-paddings>
+                            <ion-row class="askLeftDetailText">STATION: <strong>{{ask.stationName}}</strong></ion-row>
+                            <ion-row class="askLeftDetailText">AMOUNT: <strong>{{ask.askAmount | currency:'USD':true:'1.0-0'}}</strong></ion-row>
+                        </ion-grid>
+                    </div>
+                    <div class="pipelineAsk">
+                        <div class="pipeline-no-margin askWeightedAmountText">{{ask.weightedAmount | currency:'USD':true:'1.0-0'}}</div>
+                        <div class="pipeline-no-margin askRightDetailText">PROBABILITY: <strong>{{ask.probability}}%</strong></div>
+                        <div class="pipeline-no-margin askRightDetailText">CLOSE DATE: <span class="closeDateText">{{ask.expectedCloseDate | date:'MM/dd/yyyy'}}</span></div>
+                    </div>
+
+                </ion-item>
+            </ion-list>
+        </div>
+    </mbsc-form>
+</ion-content>

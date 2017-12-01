@@ -1,0 +1,10 @@
+import { mobiscroll, MbscModule } from '../src/js/modules/mobiscroll.angular.dynamic';
+export { mobiscroll, MbscModule };
+import '../src/js/themes/android-holo';
+import '../src/js/themes/ios';
+import '../src/js/themes/bootstrap';
+import '../src/js/themes/android-holo-light';
+import '../src/js/themes/mobiscroll-dark';
+import '../src/js/themes/ios-dark';
+import '../src/js/themes/auto-theme';
+export default mobiscroll;

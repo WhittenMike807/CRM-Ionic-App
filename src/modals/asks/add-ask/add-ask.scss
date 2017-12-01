@@ -1,0 +1,179 @@
+page-add-ask {
+    @mixin optional-at-root($sel) {
+        @at-root #{if(not &, $sel, selector-append(&, $sel))} {
+            @content;
+        }
+    }
+    @mixin placeholder {
+        @include optional-at-root('::-webkit-input-placeholder') {
+            @content;
+        }
+        @include optional-at-root(':-moz-placeholder') {
+            @content;
+        }
+        @include optional-at-root('::-moz-placeholder') {
+            @content;
+        }
+        @include optional-at-root(':-ms-input-placeholder') {
+            @content;
+        }
+    }
+    .temp {
+        font-size: 1.3125em;
+        height: 2em;
+        width: 2em;
+        top: 50%;
+        line-height: 2em;
+        margin-top: -1em;
+        text-align: center;
+        position: absolute;
+        right: 0;
+        color: #000;
+    }
+    textarea.text-input {
+        background: #f0f0f0;
+        resize: vertical;
+        border: 1px solid #cdcdcd;
+        min-height: 150px;
+        margin-bottom: 0px !important;
+    }
+    .sliderProb {
+        margin-left: 10px !important;
+        padding-right: 10px !important;
+    }
+    .sliderMonths {
+        // margin-left: 5px !important;
+        color: #7f8797;
+        padding-right: 15px !important;
+    }
+    ion-content {
+        background: #EFEFF4 !important;
+    }
+    #askCloseDate {
+        color: #d9534f;
+        font-weight: bold !important;
+    }
+    #askAmount {
+        color: #6db163;
+        font-weight: bold !important;
+    }
+    #askAmountLabel {
+        color: #6db163;
+        font-weight: bold !important;
+        position: relative !important;
+        left: 14px;
+        top: 11px;
+    }
+    #askAmount {
+        @include placeholder {
+            font-weight: normal !important;
+        }
+    }
+    input#probability {
+        opacity: 1;
+        font-size: .875em;
+        text-align: right; // padding-right: 10px;
+        padding: 0 0 0 1em;
+        height: 100%;
+    }
+    #probabilityPercent {
+        height: 100%;
+        font-size: .875em;
+        text-align: right;
+        padding: .9em 1.7em 0 0;
+        margin: 0;
+        display: inline-block; //position: relative !important;
+        // left: -22px;
+        // top: 11px;
+    }
+
+    // .monthsStepper label {
+    //     padding-top: .9em !important;
+    //     padding-bottom: .9em !important;
+    // }
+
+    #minus button,
+    #plus button {
+        border: 1px solid #1272dc;
+        border-radius: 0; // margin: 1em .42857em;
+        padding: 0em .42857em;
+        font-size: .875em;
+        width: 3.75em;
+        line-height: 2.14285714em;
+    }
+    // #minus button:active,
+    // #plus button:active {
+    //     background: #1272dc !important;
+    //     color: #fff
+    // }
+    // #minus button:disabled,
+    // #plus button:disabled {
+    //     background: none !important;
+    //     color: #c4c4c4 !important;
+    //     border-color: #c4c4c4 !important;
+    //     opacity: 1;
+    // }
+    .probInputWonText {
+        color: #5cb85c !important;
+        text-transform: uppercase;
+        font-weight: bold;
+        // padding: 0 1.7em 0 1em !important;
+    }
+    .probInputLostText {
+        color: #d9534f !important;
+        text-transform: uppercase;
+        font-weight: bold;
+        // padding: 0 1.7em 0 1em !important;
+    }
+    #plus button:disabled {
+        z-index: 6 !important;
+    }
+    #minus button:hover,
+    #plus button:hover {
+        opacity: 1;
+        background: rgba(18, 114, 220, 0.15);
+    }
+    .probButtonDisabled {
+        cursor: not-allowed !important;
+    }
+    #minus {
+        width: 60px;
+        position: relative;
+        left: -10px;
+    }
+    #plus {
+        width: 60px;
+        position: relative;
+        left: -13px;
+    }
+    #minus button {
+        border-top-left-radius: .25em !important;
+        border-bottom-left-radius: .25em !important;
+        z-index: 7;
+    }
+    #plus button {
+        border-top-right-radius: .25em !important;
+        border-bottom-right-radius: .25em !important;
+        margin-left: -0.07142857em !important;
+        z-index: 8;
+    }
+    .mbsc-ios .mbsc-input input:disabled {
+        opacity: 1;
+    }
+
+    .probText {
+        left: 0;
+        color: #000;
+        width: 3.714286em;
+        z-index: 3;
+        height: 100%;
+        position: absolute;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        font-size: .875em;
+        text-align: center;
+        top: 0;
+        padding-top: 7px;
+    }
+}

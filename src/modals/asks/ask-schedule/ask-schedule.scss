@@ -1,0 +1,58 @@
+page-ask-schedule {
+    .amount {
+        font-size: 2.0rem;
+        font-weight: bold;
+        color: #6db163;
+        text-align: right;
+    }
+    .stationName {
+        font-weight: bold;
+        font-size: 1.7rem;
+        color: #387EF5;
+    }
+    .scheduleRange {
+        width: 50px !important;
+    }
+    .scheduleRangeDesc {
+        width: 350px !important;
+        margin-top: 14px !important;
+    }
+    ion-content {
+        background: #EFEFF4 !important;
+    }
+    ion-label {
+        font-size: 1.2rem;
+        margin: 0px 0px 0px 0 !important;
+    }
+    ion-item-divider {
+        font-weight: bold;
+    }
+    ion-select {
+        font-size: 1.2rem;
+        min-height: 3rem;
+    }
+    ion-datetime {
+        font-size: 1.2rem;
+        min-height: 3rem;
+    }
+    ion-input {
+        font-size: 1.2rem;
+        min-height: 3rem;
+    }
+    .item {
+        min-height: 3rem;
+    }
+    .askScheduleAmount {
+        color: #6db163;
+        font-weight: bold !important;
+    }
+    #askDollar {
+        color: #6db163;
+        font-weight: bold !important;
+        position: relative !important;
+        left: 15px;
+        top: 11px;
+        float: right;
+        z-index: 0;
+    }
+}

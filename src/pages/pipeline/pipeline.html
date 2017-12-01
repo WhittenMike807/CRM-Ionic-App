@@ -1,0 +1,112 @@
+<ion-header id="pipelineHeader" [elasticHeader]="myContent">
+    
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="apps"></ion-icon>
+        </button>
+        <ion-title text-center>Pipeline</ion-title>
+    </ion-navbar>
+
+    <ion-toolbar color="white" no-padding>
+        <ion-buttons start left>
+            <button ion-button color="primary" clear item-left (click)="prevMonth()">
+                <ion-icon name="arrow-dropleft"></ion-icon>
+            </button>
+        </ion-buttons>
+
+        <ion-title text-uppercase text-center>
+            <div class="selectedMonthText">{{headerText}}</div>
+        </ion-title>
+
+        <ion-buttons end>
+            <button ion-button color="primary" clear item-right (click)="nextMonth()">
+                <ion-icon name="arrow-dropright"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+    <ion-toolbar no-padding no-margin>
+        <ion-item class="graphItem">
+            <div class="progress-wrapper">
+                <div class="current">
+                    <div class="pipePendingText">
+                        <strong>{{((budgetService.pipelineGraphData$ | async)?.pipeline | currency:'USD':true:'1.0-0')}}</strong>
+                    </div>
+                    <div class="pipeDescText">(PIPELINE)</div>
+                    <div class="pipeBudgetText">BUDGET: <strong>{{((budgetService.pipelineGraphData$ | async)?.budget | currency:'USD':true:'1.0-0')}}</strong></div>
+                    <div class="pipeBoBText">BOB: <strong>{{((budgetService.pipelineGraphData$ | async)?.bob | currency:'USD':true:'1.0-0')}}</strong></div>
+                </div>
+
+                <round-progress [current]="(budgetService.pipelineGraphData$ | async)?.percentage" [max]="100" [color]="'#6db163'" [background]="'#ffffff'" [radius]="75" [stroke]="10" [clockwise]="true"></round-progress>
+            </div>
+        </ion-item>
+    </ion-toolbar>
+
+    <ion-toolbar no-padding class="headerToolBar">
+        <ion-item no-lines text-uppercase>
+            {{selectedAskView.listHeaderText}}
+            <div item-end class="pipeline-grid-right" *ngIf="budgetService.pipelineData$ | async as askTotal">{{(askTotal | calculateTotal) | currency:'USD':true:'1.0-0'}}</div>
+        </ion-item>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content fullscreen #myContent>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-grid class="loadingPipelineData" *ngIf="budgetService.isLoadingPipelineData$ | async">
+        <ion-row center>
+            <ion-col align-self-stretch text-center>
+                <h5 text-uppercase>Loading</h5>
+                <ion-spinner name="circles"></ion-spinner>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-list style="margin-bottom: 0;" *ngIf="!(budgetService.isLoadingPipelineData$ | async)">
+        <ion-item-sliding *ngFor="let ask of (budgetService.pipelineData$ | async)" #slidingItem>
+            <ion-item no-padding class="askItem">
+                <div class="pipelineAsk">
+                    <ion-grid no-paddings>
+                        <ion-row>
+                            <h2 (click)="viewCompanyDetails(ask)" class="companyNameText">{{ask.companyName}}</h2>
+                        </ion-row>
+                        <ion-row class="askLeftDetailText">STATION: <strong>{{ask.stationName}}</strong></ion-row>
+                        <ion-row class="askLeftDetailText">TOTAL: <strong>{{ask.totalAskAmount | currency:'USD':true:'1.0-0'}}</strong></ion-row>
+                    </ion-grid>
+                </div>
+                <div class="pipelineAsk">
+                    <div class="pipeline-no-margin askWeightedAmountText">{{ask.weightedAmount | currency:'USD':true:'1.0-0'}}</div>
+                    <div class="pipeline-no-margin askRightDetailText">PROBABILITY: <strong>{{ask.probability}}%</strong></div>
+                    <div class="pipeline-no-margin askRightDetailText">CLOSE DATE: <span class="closeDateText">{{ask.closeDate | date:'MM/dd/yyyy'}}</span></div>
+                </div>
+            </ion-item>
+            <ion-item-options side="right">
+                 <button ion-button color="danger" (click)="deleteAsk(slidingItem, ask)">
+                    <ion-icon name="trash"></ion-icon>
+                    <div class="itemOptionsText">Delete</div>
+                </button>
+                <button ion-button color="dark" (click)="editAsk(slidingItem, ask)">
+                    <ion-icon name="create"></ion-icon>
+                    <div class="itemOptionsText">Edit</div>
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+
+    <ion-fab right bottom>
+        <button color="primary" ion-fab mini tappable (click)="addAsk()"><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar no-padding>
+        <ion-grid no-padding>
+            <ion-row nowrap justify-content-between class="filterPipelineCol">
+                <ion-col align-self-center text-center *ngFor="let item of pipelineFilterItems" [ngClass]="{'isSelected': item.isActive}" (click)="tooglePipelineView(item)" #testingClick>
+                    <div class="topText">{{item.topText}}</div>
+                    <div class="bottomText">{{item.bottomText}}</div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-footer>

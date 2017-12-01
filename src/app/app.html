@@ -1,0 +1,50 @@
+<ion-menu [content]="content" swipeEnabled="false">
+    <ion-header>
+        <ion-toolbar color="primary">
+            <ion-buttons left start (click)="closeMenu()">
+                <button ion-button icon-only>
+              <ion-icon name="close"></ion-icon>
+            </button>
+            </ion-buttons>
+            <ion-title text-center>
+                {{(sharedService.userData$ | async)?.market?.name}}
+            </ion-title>
+
+            <ion-buttons end (click)="openUserMarketsModal()">
+                <button ion-button icon-only>
+                    <ion-icon name="options"></ion-icon>
+                </button>
+            </ion-buttons>
+
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list class="slidingNavArea">
+            <button ion-item menuClose (click)="navigate('Activities')"><ion-icon name="calendar" ios="ios-calendar-outline" item-left></ion-icon>Activities</button>
+            <button ion-item menuClose (click)="navigate('Pipeline')"><ion-icon name="cash" item-left></ion-icon>Pipeline</button>
+            <button ion-item menuClose (click)="navigate('SeeAll')"><ion-icon name="list-box" item-left></ion-icon>See All</button>
+            <button ion-item menuClose (click)="navigate('Leads')"><ion-icon name="list-box" item-left></ion-icon>Leads</button>
+            <button ion-item menuClose (click)="navigate('Accounts')"><ion-icon name="list-box" item-left></ion-icon>Accounts</button>
+            <button ion-item menuClose (click)="navigate('Agencies')"><ion-icon name="list-box" item-left></ion-icon>Agencies</button>
+            <button ion-item menuClose (click)="navigate('Contacts')"><ion-icon name="contacts" item-left></ion-icon>Contacts</button>
+            <button ion-item menuClose (click)="navigate('SearchCompanies')"><ion-icon name="search" item-left></ion-icon>Search Market Companies</button>
+        </ion-list>
+
+        <ion-list class="slidingNavArea">
+            <ion-list-header>General App Settings</ion-list-header>
+            <button ion-item menuClose (click)="navigate('AboutPage')"><ion-icon name="information-circle" item-left></ion-icon>About</button>
+        </ion-list>
+
+    </ion-content>
+
+    <ion-footer>
+        <ion-toolbar>
+            <button text-center color="danger" menuClose ion-item detail-none (click)="logout()">Sign Out</button>
+        </ion-toolbar>
+    </ion-footer>
+
+</ion-menu>
+
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav id="nav" [root]="rootPage" #content no-scroll swipeBackEnabled="false"></ion-nav>

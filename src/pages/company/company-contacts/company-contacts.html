@@ -1,0 +1,20 @@
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <mbsc-form [options]="formSettings">
+        <div class="mbsc-form-group">
+            <div class="mbsc-form-group-title"><ion-icon name="contacts"></ion-icon> Contacts</div>
+            <ion-list>
+                <ion-item *ngFor="let contact of (leadsService.leadSubject$ | async | orderBy : ['-isDecisionMaker'])" detail-push (click)="editContact(contact)">
+                    <h3 style="font-weight:bold">{{contact.firstName}} {{contact.lastName}}</h3>
+                    <p *ngIf="contact.title" style="font-style:italic;">{{contact.title}}</p>
+                    <p *ngIf="contact.isDecisionMaker == true" style="font-style:italic;">Decision Maker</p>
+                    <p *ngIf="contact.phone" (click)="cancel($event)"><ion-icon name="call"></ion-icon>&nbsp;&nbsp;<a href="tel:{{contact.phone}}">{{contact.phone}}</a></p>
+                    <p *ngIf="contact.mobilePhone"><ion-icon name="phone-portrait"></ion-icon>&nbsp;&nbsp;<a href="tel:{{contact.mobilePhone}}">{{contact.mobilePhone}}</a></p>
+                    <p *ngIf="contact.emailAddress"><ion-icon name="mail"></ion-icon>&nbsp;&nbsp;<a href="mailto:{{contact.emailAddress}}">{{contact.emailAddress}}</a></p>
+                </ion-item>
+            </ion-list>
+        </div>
+    </mbsc-form>
+</ion-content>

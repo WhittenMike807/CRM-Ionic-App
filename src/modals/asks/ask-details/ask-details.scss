@@ -1,0 +1,208 @@
+page-ask-details {
+    ion-header {
+        background-color: #488aff;
+    }
+    .ion-navbar-header-fix {
+        margin-top: 20px; /* ios only */
+    }
+    ion-content {
+        background: #EFEFF4 !important;
+    }
+    #corporate {
+        
+    }
+    #station {
+
+    }
+    #minus {
+        width: 60px !important;
+    }
+    #askCloseDate {
+        color: #d9534f;
+        font-weight: bold;
+    }
+    #askAmount {
+        color: #6db163;
+        font-weight: bold !important;
+    }
+    #askAmountLabel {
+        color: #6db163;
+        font-weight: bold !important;
+        position: relative !important;
+        left: 14px;
+        top: 11px;
+    }
+    ion-item-divider {
+        border-bottom: 1px solid #c4c4c4 !important;
+    }
+
+    ion-item-divider ion-label {
+        font-size: .7em !important;
+        // font-weight: bold;
+    }
+
+    ion-item-divider ion-icon {
+        font-size: 1.15em !important;
+        margin: 0 !important;
+        line-height: 2em !important;
+        color: #d9534f;
+    }
+    #amountDetails {
+        font-size: .75em !important;
+        margin: 0 !important;
+        line-height: 1.2em !important;
+        color: green;
+        font-weight: bold;
+    }
+    // #probabilityPercent {
+    //     color: gray;
+    //     position: relative !important;
+    //     left: -22px;
+    //     top: 11px;
+    // }
+    .periodRange {
+        font-size: .875em !important;
+        // height: 100% !important;
+        // position: relative !important;
+        // left: -20px !important;
+        // width: 250px !important;
+    }
+    .mbsc-form-group {
+      margin-top: 0px !important;
+      margin-bottom: 0px !important;
+      padding: 0px 0px 0px 0px !important;
+    }
+    .mbsc-form-group-title-station {
+        font-size: 2rem !important;
+        font-weight: bold !important;
+        height: 55px;
+        margin-left: 5px;
+    }
+
+        input#probability {
+        opacity: 1;
+        font-size: .875em;
+        text-align: right; // padding-right: 10px;
+        padding: 0 0 0 1em;
+        height: 100%;
+    }
+    #probabilityPercent {
+        height: 100%;
+        font-size: .875em;
+        text-align: right;
+        padding: 1em 1.7em 0 0;
+        margin: 0;
+        display: inline-block; //position: relative !important;
+        // left: -22px;
+        // top: 11px;
+    }
+
+    #minus button,
+    #plus button {
+        border: 1px solid #1272dc;
+        border-radius: 0; // margin: 1em .42857em;
+        padding: 0em .42857em;
+        font-size: .875em !important;
+        width: 3.75em;
+        line-height: 2.14285714em;
+    }
+    #minus button:active,
+    #plus button:active {
+        background: #1272dc !important;
+        color: #fff;
+    }
+    #minus button:disabled,
+    #plus button:disabled {
+        background: none !important;
+        color: #c4c4c4 !important;
+        border-color: #c4c4c4 !important;
+        opacity: 1;
+    }
+    .probInputWonText {
+        color: #5cb85c !important;
+        text-transform: uppercase;
+        font-weight: bold;
+        // padding: 0 1.7em 0 1em !important;
+    }
+    .probInputLostText {
+        color: #d9534f !important;
+        text-transform: uppercase;
+        font-weight: bold;
+        // padding: 0 1.7em 0 1em !important;
+    }
+    #plus button:disabled {
+        z-index: 6 !important;
+    }
+    #minus button:hover,
+    #plus button:hover {
+        opacity: 1;
+        background: rgba(18, 114, 220, 0.15);
+    }
+    .probButtonDisabled {
+        cursor: not-allowed !important;
+    }
+    #minus {
+        width: 60px;
+        position: relative;
+        left: -10px;
+    }
+    #plus {
+        width: 60px;
+        position: relative;
+        left: -13px;
+    }
+    #minus button {
+        border-top-left-radius: .25em !important;
+        border-bottom-left-radius: .25em !important;
+        z-index: 7;
+    }
+    #plus button {
+        border-top-right-radius: .25em !important;
+        border-bottom-right-radius: .25em !important;
+        margin-left: -0.07142857em !important;
+        z-index: 8;
+    }
+    .deleteStationButton{
+        position: absolute !important;
+        line-height: 1.3em !important;
+        // text-align: right;
+        // left: -30px !important;
+        // top: -3px !important;
+    }
+    .deleteStationButton button {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .sliderProb {
+        margin-left: 10px !important;
+        padding-right: 10px !important;
+    }
+        .sliderMonths {
+        // margin-left: 5px !important;
+        color: #7f8797;
+        padding-right: 15px !important;
+    }
+    .item {
+        min-height: 3rem;
+    }
+
+        .mbsc-ios .mbsc-input input:disabled {
+        opacity: 1;
+    }
+
+        .probText {
+        left: 0;
+        color: #000;
+        width: 3.714286em;
+        z-index: 3;
+        height: 100%;
+        position: absolute;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        font-size: .875em;
+        text-align: center;
+        top: 0;
+        padding-top: 7px;
+    }
+}

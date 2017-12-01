@@ -1,0 +1,64 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+            <button ion-button menuToggle>
+                <ion-icon name="apps"></ion-icon>
+            </button>   
+            <ion-title>See All</ion-title>
+            <ion-buttons end>
+                <button ion-button icon-only (click)="toggleSearchBar()">
+                    <ion-icon name="search"></ion-icon>
+                </button>
+            </ion-buttons>
+    </ion-navbar>
+
+
+    <ion-toolbar *ngIf="showSearchBar">
+        <ion-searchbar #searchbar animated="true" debounce="500" [(ngModel)]="searchCompaniesString"  [showCancelButton]="true" placeholder="Search Companies..."></ion-searchbar>
+    </ion-toolbar>
+    <ion-toolbar primary *ngIf="showSearchBar" id="searchToolbar">
+        <mbsc-form>
+            <label id="searchLabel">
+                Conditions
+                <select [(ngModel)]="searchFilter" (change)="conditionChanged($event)" data-icon="line-params" mbsc-select [mbsc-options]="searchSettings">
+                    <option value="0">None</option>
+                    <option value="1">Priority</option>
+                    <option value="2">Overdue</option>
+                    <option value="3">Has Next</option>
+                    <option value="4">No Next</option>
+                    <option value="5">Hot</option>
+                    <option value="6">Warm</option>
+                    <option value="7">Cold</option>
+                </select>
+            </label>
+        </mbsc-form>
+    </ion-toolbar>
+
+    <ion-toolbar>
+        <ion-segment [(ngModel)]="companyType">
+            <ion-segment-button value="">
+                All
+            </ion-segment-button>
+            <ion-segment-button value="Lead">
+                Leads
+            </ion-segment-button>
+            <ion-segment-button value="Account">
+                Accounts
+            </ion-segment-button>
+            <ion-segment-button value="Agency">
+                Agencies
+            </ion-segment-button>
+            <ion-segment-button value="Suspect">
+                Suspects
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <company-list #companyList [isSeeAll]="true" [searchText]="searchCompaniesString" [searchCondition]="searchCondition" [companyType]="companyType"></company-list> 
+</ion-content>

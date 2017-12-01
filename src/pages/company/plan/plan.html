@@ -1,0 +1,82 @@
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <mbsc-form [options]="formSettings">
+        <div class="mbsc-form-group">
+            <div class="mbsc-form-group-title"><ion-icon name="pulse"></ion-icon> Plan</div>
+            <ion-grid  *ngIf="leadsService.companyRevenueByMonthSubject$ | async as spendingData">
+                <ion-row>
+                    <ion-col><b>MONTH</b></ion-col>
+                    <ion-col><b>CURR YR</b></ion-col>
+                    <ion-col><b>PREV YR</b></ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>January</ion-col>
+                    <ion-col>{{spendingData.month1 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth1 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>February</ion-col>
+                    <ion-col>{{spendingData.month2 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth2 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>March</ion-col>
+                    <ion-col>{{spendingData.month3 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth3 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>April</ion-col>
+                    <ion-col>{{spendingData.month4 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth4 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>May</ion-col>
+                    <ion-col>{{spendingData.month5 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth5 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>June</ion-col>
+                    <ion-col>{{spendingData.month6 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth6 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>July</ion-col>
+                    <ion-col>{{spendingData.month7 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth7 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>August</ion-col>
+                    <ion-col>{{spendingData.month8 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth8 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>September</ion-col>
+                    <ion-col>{{spendingData.month9 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth9 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>October</ion-col>
+                    <ion-col>{{spendingData.month10 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth10 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>November</ion-col>
+                    <ion-col>{{spendingData.month11 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth11 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>December</ion-col>
+                    <ion-col>{{spendingData.month12 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth12 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col></ion-col>
+                    <ion-col><strong>{{ (spendingData.month1 + spendingData.month2 + spendingData.month3 + spendingData.month4 + spendingData.month5 + spendingData.month6 + spendingData.month7 + spendingData.month8 + spendingData.month9 + spendingData.month10 + spendingData.month11 + spendingData.month12) | currency:"USD":true:"1.0-0" }}</strong></ion-col>
+                    <ion-col><strong>{{ (spendingData.priorMonth1 + spendingData.priorMonth2 + spendingData.priorMonth3 + spendingData.priorMonth4 + spendingData.priorMonth5 + spendingData.priorMonth6 + spendingData.priorMonth7 + spendingData.priorMonth8 + spendingData.priorMonth9 + spendingData.priorMonth10 + spendingData.priorMonth11 + spendingData.priorMonth12) | currency:"USD":true:"1.0-0" }}</strong></ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+    </mbsc-form>
+</ion-content>

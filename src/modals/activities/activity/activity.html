@@ -1,0 +1,71 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons>
+            <button ion-button (click)="cancel()">
+                Cancel
+            </button>
+        </ion-buttons>
+        <ion-title>Activity</ion-title>
+          <ion-buttons end>
+            <button ion-button (click)="save()" [disabled]="!activityForm.valid">
+                Save
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content no-padding>
+    <form [formGroup]="activityForm">
+        <mbsc-form [options]="formSettings">
+            <div class="mbsc-form-group">
+                <div class="mbsc-form-group-title">Select Activity Type</div>
+                <mbsc-segmented-group formControlName="activityType" (click)="switchMeetingType(activityForm.controls['activityType'].value)">
+                    <mbsc-segmented value="Meeting" icon="calendar2">Meeting</mbsc-segmented>
+                    <mbsc-segmented value="Call" icon="phone">Call</mbsc-segmented>
+                    <mbsc-segmented value="Todo" icon="checkbox-checked">Todo</mbsc-segmented>
+                </mbsc-segmented-group>
+            </div>   
+
+            <div class="mbsc-form-group">
+                <div class="mbsc-form-group-title">Subject</div>
+                <mbsc-input formControlName="subject" type="text" icon="pencil2" icon-align="left" placeholder="Enter subject..."></mbsc-input>
+            </div>
+
+            <div class="mbsc-form-group" *ngIf="mode == 'new'">
+                <div class="mbsc-form-group-title">Select Company</div>
+                <mbsc-input type="text" formControlName="companyName" (click)="selectCompany()" icon="office" icon-align="left" placeholder="Optional..."></mbsc-input> 
+            </div>
+
+            <div class="mbsc-form-group" *ngIf="mode == 'edit'">
+                <div class="mbsc-form-group-title">Select Company</div>
+                <mbsc-input type="text" formControlName="companyName" icon="office" icon-align="left" placeholder="Optional..." [disabled]="true"></mbsc-input> 
+            </div>
+            
+             <div class="mbsc-form-group" *ngIf="selectedCompany?.contacts && mode != 'edit'">
+                <div class="mbsc-form-group-title">Select Contact</div>
+                <mbsc-input formControlName="contactId" #myVariable="mobiscroll" mbsc-select [mbsc-data]="items" icon="users" icon-align="left" [mbsc-options]="settingsTest"></mbsc-input>
+            </div> 
+
+            <div class="mbsc-form-group">
+                <div class="mbsc-form-group-title">Date, Time and Duration</div>
+                <mbsc-input formControlName="startDate" mbsc-calendar [mbsc-options]="selectStartDateSettings" icon="calendar">Date</mbsc-input>
+                <mbsc-input formControlName="activityStartTime" mbsc-time [mbsc-options]="selectStartTimeSettings" icon="clock" placeholder="Optional...">Time</mbsc-input>
+                <mbsc-stepper formControlName="duration" min="0" max="120" step="5">Duration
+                    <span class="mbsc-desc">(Minutes)</span>
+                </mbsc-stepper>
+            </div>
+
+            <div class="mbsc-form-group" *ngIf="mode == 'new'">
+                <div class="mbsc-form-group-title">Sync To Exchange</div>
+                <mbsc-switch formControlName="pushToExchange">
+                    <span class="mbsc-desc">Push this activity to Outlook</span>
+                </mbsc-switch>
+            </div>
+
+            <div class="mbsc-form-group">
+                <div class="mbsc-form-group-title">Notes</div>
+                <mbsc-textarea formControlName="activityDescription" icon="copy2" icon-align="left" placeholder="Optional..."></mbsc-textarea>
+            </div>
+        </mbsc-form>
+    </form >
+</ion-content>

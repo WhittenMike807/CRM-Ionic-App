@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons>
+            <button ion-button (click)="editCancel()">
+                Cancel
+            </button>
+        </ion-buttons>
+        <ion-title>Edit Note</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="editSave()">
+                Save
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content fullscreen>
+    <ion-card-header class="noteHeader">
+        NOTE
+    </ion-card-header>
+
+    <quill-editor [(ngModel)]="note.note" [modules]="{toolbar: [['bold', 'italic', 'underline', 'strike'], [{ 'list': 'ordered'}, { 'list': 'bullet' }],[{ 'indent': '-1'}, { 'indent': '+1' }]]}" placeholder="Add Note Text Here..."></quill-editor>
+
+</ion-content>

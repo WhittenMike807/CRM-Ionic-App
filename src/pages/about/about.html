@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+            <ion-icon name="apps"></ion-icon>
+        </button>
+    <ion-title>AMP CRM</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-item>
+      <h2>AMP CRM Mobile Version</h2>
+      <p>{{versionNumber}}</p>
+    </ion-item>
+    <ion-item>
+      <h2>Environment</h2>
+      <p>{{envVariables.environmentName}}</p>
+    </ion-item>
+    <ion-item>
+      <h2>Endpoint</h2>
+      <p>{{envVariables.apiEndpoint | slice:0:-4}}</p>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

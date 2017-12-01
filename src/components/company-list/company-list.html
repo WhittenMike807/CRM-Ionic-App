@@ -1,0 +1,14 @@
+ <ion-list>
+  <ion-item *ngFor="let company of (accounts | filterPipe:{ companyName: _searchText } : false | filterPipe:{ type: _companyType } : false | filterPipe:_searchCondition : false)" (click)="selectCompany(company)">
+    {{company.companyName}}
+    <div class="companyType {{company.type | lowercase}}">{{company.type | uppercase}}</div>
+  </ion-item>
+</ion-list> 
+
+
+<!-- <ion-list [virtualScroll]="(sharedService.userCompanies$ | async | filterPipe:{ companyName: _searchText } : false | filterPipe:{ companyType: _companyType } : false)" approxItemHeight="85px">
+  <ion-item *virtualItem="let company" (click)="selectCompany(company)" >
+    {{company.companyName}}
+    <div class="companyType {{company.companyType | lowercase}}">{{company.companyType | uppercase}}</div>
+  </ion-item>
+</ion-list> -->

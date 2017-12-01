@@ -1,0 +1,9 @@
+{
+  "name": "AMP Mobile",
+  "app_id": "95fd9fb3",
+  "type": "ionic-angular",
+  "watchPatterns": [],
+  "integrations": {
+    "cordova": {}
+  }
+}

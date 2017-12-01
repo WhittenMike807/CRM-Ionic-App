@@ -1,0 +1,17 @@
+page-select-company {
+    .companyType {
+        font-size: 1.1rem;
+    }
+    .companyType.lead {
+        color: map-get($colors, lead);
+    }
+    .companyType.account {
+        color: map-get($colors, account);
+    }
+    .companyType.agency {
+        color: map-get($colors, agency);
+    }
+    .companyType.suspect {
+        color: map-get($colors, suspect);
+    }
+}

@@ -1,0 +1,260 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Company Details</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    
+    <div #map id="map" style="height:35%;" [hidden]="!showMap"></div>
+
+    <!-- COMPANY ADDRESS -->
+    <ion-card>
+        <ion-card-content>
+            <h2><ion-icon name="md-create" (click)="editCompany()" *ngIf="accountDetails.companyType != 'Account'"></ion-icon> {{accountDetails.companyName}}</h2> 
+            <a href="http://maps.apple.com/maps?q={{accountDetails.address1}}%20{{accountDetails.city}}%20{{accountDetails.state}}%20{{accountDetails.zipCode}}"> 
+                <p *ngIf="accountDetails.address1">{{accountDetails.address1}}</p>
+                <p *ngIf="accountDetails.address2">{{accountDetails.address2}}</p>
+                <p *ngIf="accountDetails.city">{{accountDetails.city}}, {{accountDetails.state}} {{accountDetails.zipCode}}</p>
+             </a> 
+            <p *ngIf="accountDetails.phone"><ion-icon name="call"></ion-icon> <a href="tel:{{accountDetails.phone}}">{{accountDetails.phone}}</a></p>
+        </ion-card-content>
+    </ion-card>
+
+    <!-- LEAD CONTACTS -->
+    <ion-card>
+        <ion-card-header (click)="toggleSection('showContacts')">
+            CONTACTS
+            <ion-icon name="arrow-down" *ngIf="showContacts"></ion-icon>
+            <ion-icon name="arrow-forward" *ngIf="!showContacts"></ion-icon>
+        </ion-card-header>
+
+        <ion-card-content *ngIf="showContacts">
+            <ion-list>
+                <ion-item *ngFor="let contact of contacts">
+                    <h3 style="font-weight:bold"><ion-icon name="md-create" (click)="editContact(contact)"></ion-icon> {{contact.firstName}} {{contact.lastName}}</h3>
+                    <p *ngIf="contact.title" style="font-style:italic;">{{contact.title}}</p>
+                    <p *ngIf="contact.isDecisionMaker == true" style="font-style:italic;">Decision Maker</p>
+                    <p *ngIf="contact.phone"><ion-icon name="call"></ion-icon> <a href="tel:{{contact.phone}}">{{contact.phone}}</a></p>
+                    <p *ngIf="contact.mobilePhone"><ion-icon name="phone-portrait"></ion-icon> <a href="tel:{{contact.mobilePhone}}">{{contact.mobilePhone}}</a></p>
+                    <p *ngIf="contact.emailAddress"><ion-icon name="mail"></ion-icon> <a href="mailto:{{contact.emailAddress}}">{{contact.emailAddress}}</a></p>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+
+    <!-- ACCOUNT REVENUE -->
+    <ion-card *ngIf="accountDetails.companyType == 'Account'">
+        <ion-card-header>
+            ACCOUNT REVENUE
+        </ion-card-header>
+
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                    <ion-col style="text-transform: uppercase; font-size: 12px;" text-center><div>THIS YEAR</div></ion-col>
+                    <ion-col style="text-transform: uppercase; font-size: 12px;" text-center>LAST YEAR</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col style="font-size: 26px; font-weight: bold;" text-center>{{ spendingCY | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col style="font-size: 26px; font-weight: bold" text-center>{{ spendingLY | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+
+    <!-- LEAD NOTES -->
+    <ion-card>
+        <ion-card-header (click)="toggleSection('showNotes')">
+            NOTES
+            <ion-icon name="arrow-down" *ngIf="showNotes"></ion-icon>
+            <ion-icon name="arrow-forward" *ngIf="!showNotes"></ion-icon>
+        </ion-card-header>
+
+        <ion-card-content *ngIf="showNotes">
+            <ion-list>
+                <ion-item *ngFor="let note of leadNotes">
+                    <h3 style="font-weight:bold"><ion-icon name="md-create" (click)="editNote(note)"></ion-icon> {{note.modifiedDate | moment: "MMM DD, YYYY h:mm a"}}</h3>
+                    <div [innerHTML]="note.note"></div>                    
+                </ion-item>
+            </ion-list>
+        </ion-card-content>        
+    </ion-card>
+
+    <!-- PENDING ACTIVITIES -->
+    <ion-card>
+        <ion-card-header (click)="toggleSection('showPendingActivity')">
+            PENDING ACTIVITIES
+            <ion-icon name="arrow-down" *ngIf="showPendingActivity"></ion-icon>
+            <ion-icon name="arrow-forward" *ngIf="!showPendingActivity"></ion-icon>
+        </ion-card-header>
+
+        <ion-card-content *ngIf="showPendingActivity">
+            <ion-list  class="chat-sliding-demo">
+                <ion-item-sliding *ngFor="let act of pendingActivities"  #slidingItem>
+                    <ion-item no-padding class="activityItem" [ngClass]="isActivityClosed(act)">
+                        <h2>{{act.subject}}</h2>
+                        <p *ngIf="act.companyName" (click)="itemTapped($event, act)">{{act.companyName}}</p>
+                        <p *ngIf="act.suspectCompanyName" (click)="itemTapped($event, act)">{{act.suspectCompanyName}}</p>
+                        <ion-note item-end *ngIf="isMidnight(act.startDate)">
+                            {{act.startDate | moment:'h:mma'}}
+                        </ion-note>
+                    </ion-item>
+
+                    <ion-item-options side="right">
+                        <button ion-button color="danger" (click)="deleteActivity(slidingItem, act)">
+                            <ion-icon name="trash" class="expand-hide"></ion-icon>
+                            <div class="expand-hide itemOptionsText">Delete</div>
+                            <ion-spinner id="delete-spinner"></ion-spinner>
+                        </button>
+                        <button ion-button color="secondary" (click)="closeActivitySliding(slidingItem, act)">
+                            <ion-icon name="checkmark-circle-outline"></ion-icon>
+                            <div class="itemOptionsText">Close</div>
+                        </button>
+                        <button ion-button color="dark" (click)="editActivity(slidingItem, act)">
+                            <ion-icon name="create"></ion-icon>
+                            <div class="itemOptionsText">Edit</div>
+                        </button>
+                    </ion-item-options>
+                </ion-item-sliding>
+            </ion-list>
+        </ion-card-content>        
+    </ion-card>
+
+    <!-- ACTIVITY HISTORY -->
+    <ion-card>
+        <ion-card-header (click)="toggleSection('showActivityHistory')">
+            ACTIVITY HISTORY
+            <ion-icon name="arrow-down" *ngIf="showActivityHistory"></ion-icon>
+            <ion-icon name="arrow-forward" *ngIf="!showActivityHistory"></ion-icon>
+        </ion-card-header>
+
+        <ion-card-content *ngIf="showActivityHistory">
+            <ion-list>
+                <ion-item *ngFor="let act of activityHistory">
+                    <p>{{act.closeDate | moment: 'EEE MMM DD, YYYY h:mma'}}</p>
+                    <p>Scheduled: {{act.startDate | moment: 'MMM DD, YYYY h:mma'}}</p>
+                    <p>{{act.subject}}</p>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+
+    <!-- OPEN ASKS -->
+    <ion-card *ngIf="accountDetails.companyType == 'Account' || accountDetails.companyType == 'Lead'">
+        <ion-card-header (click)="toggleSection('showOpenAsks')">
+            OPEN ASKS
+            <ion-icon name="arrow-down" *ngIf="showOpenAsks"></ion-icon>
+            <ion-icon name="arrow-forward" *ngIf="!showOpenAsks"></ion-icon>
+        </ion-card-header>
+
+        <ion-card-content *ngIf="showOpenAsks">
+            <ion-list>
+                <ion-item *ngFor="let ask of openAsks">
+                    <p><b>Station:</b> {{ ask.stationName }}</p>
+                    <p><b>Close Date:</b> {{ (ask.expectedCloseDate | date:"MMM dd")}}</p>
+                    <p><b>Ask Amount:</b> {{ ask.askAmount | currency:"USD":true:0 }}</p>
+                    <p><b>Probability:</b> {{ask.probability}}%</p>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+
+    <!-- PLAN -->
+    <ion-card *ngIf="accountDetails.companyType == 'Account'">
+        <ion-card-header (click)="toggleSection('showPlan')">
+            PLAN
+            <ion-icon name="arrow-down" *ngIf="showPlan"></ion-icon>
+            <ion-icon name="arrow-forward" *ngIf="!showPlan"></ion-icon>
+        </ion-card-header>
+
+        <ion-card-content *ngIf="showPlan">
+            <ion-grid>
+                <ion-row>
+                    <ion-col><b>MONTH</b></ion-col>
+                    <ion-col><b>CURR YR</b></ion-col>
+                    <ion-col><b>PREV YR</b></ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>January</ion-col>
+                    <ion-col>{{spendingData.month1 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth1 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>February</ion-col>
+                    <ion-col>{{spendingData.month2 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth2 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>March</ion-col>
+                    <ion-col>{{spendingData.month3 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth3 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>April</ion-col>
+                    <ion-col>{{spendingData.month4 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth4 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>May</ion-col>
+                    <ion-col>{{spendingData.month5 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth5 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>June</ion-col>
+                    <ion-col>{{spendingData.month6 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth6 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>July</ion-col>
+                    <ion-col>{{spendingData.month7 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth7 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>August</ion-col>
+                    <ion-col>{{spendingData.month8 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth8 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>September</ion-col>
+                    <ion-col>{{spendingData.month9 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth9 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>October</ion-col>
+                    <ion-col>{{spendingData.month10 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth10 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>November</ion-col>
+                    <ion-col>{{spendingData.month11 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth11 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>December</ion-col>
+                    <ion-col>{{spendingData.month12 | currency:"USD":true:"1.0-0" }}</ion-col>
+                    <ion-col>{{spendingData.priorMonth12 | currency:"USD":true:"1.0-0" }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col></ion-col>
+                    <ion-col><strong>{{ (spendingData.month1 + spendingData.month2 + spendingData.month3 + spendingData.month4 + spendingData.month5 + spendingData.month6 + spendingData.month7 + spendingData.month8 + spendingData.month9 + spendingData.month10 + spendingData.month11 + spendingData.month12) | currency:"USD":true:"1.0-0" }}</strong></ion-col>
+                    <ion-col><strong>{{ (spendingData.priorMonth1 + spendingData.priorMonth2 + spendingData.priorMonth3 + spendingData.priorMonth4 + spendingData.priorMonth5 + spendingData.priorMonth6 + spendingData.priorMonth7 + spendingData.priorMonth8 + spendingData.priorMonth9 + spendingData.priorMonth10 + spendingData.priorMonth11 + spendingData.priorMonth12) | currency:"USD":true:"1.0-0" }}</strong></ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+
+    <!-- DELETE or CONVERT LEADS -->
+    <ion-toolbar text-center>
+        <button ion-button small (click)="requestAccount()" style="width:35%" *ngIf="!accountDetails.isAccount && !accountDetails.accountRequested">Request Account</button>
+        <button ion-button small (click)="cancelRequest()" style="width:35%" *ngIf="!accountDetails.isAccount && accountDetails.accountRequested">Cancel Request</button>
+        <button ion-button small (click)="convertToLead()" style="width:35%" *ngIf="accountDetails.companyType == 'Account'">Convert to Lead</button>
+        <button ion-button small (click)="deleteLead()" style="width:35%" *ngIf="accountDetails.companyType != 'Account'">Delete {{ accountDetails.companyType }}</button>
+    </ion-toolbar>
+
+    <!-- Action Menu -->
+    <ion-fab bottom right>
+        <button ion-fab mini (click)="openMenu()"><ion-icon name="md-add"></ion-icon></button>
+   </ion-fab>
+
+</ion-content>
